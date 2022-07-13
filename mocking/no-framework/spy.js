@@ -1,0 +1,40 @@
+const assert = require("assert");
+const willIHikeToday = require("../willIHikeToday");
+const hikePredictor = require("../hikingPredictor");
+
+const testingUtils = {
+    toHaveBeenCalledTimes(func, n) {
+        assert.strictEqual(func?.mock?.calls.length, n)
+    },
+    fn(impl = () => { }) {
+        function mockFn(...args) {
+            mockFn.mock.calls.push(args)
+            return impl(...args);
+        }
+        mockFn.mock = { calls: [] };
+        mockFn.mockImplementation = (newImpl) => impl = newImpl;
+
+        return mockFn;
+    },
+    spyOn(object, prop) {
+        const originalMethod = object[prop];
+        object[prop] = this.fn();
+        object[prop].mockRestore = () => (object[prop] = originalMethod);
+
+    }
+}
+
+testingUtils.spyOn(hikePredictor, "isGoodDayToHike");
+hikePredictor.isGoodDayToHike.mockImplementation(function goodDay() { return true })
+
+try {
+    assert.strictEqual(willIHikeToday(), "Yes!");
+    testingUtils.toHaveBeenCalledTimes(hikePredictor.isGoodDayToHike, 1);
+    console.log("Test Passed, you can go hiking!");
+} catch (err) {
+    console.log("Test Failed, stay at home today :D");
+    console.log(err);
+}
+
+// cleanup after the test is done;
+hikePredictor.isGoodDayToHike.mockRestore();
