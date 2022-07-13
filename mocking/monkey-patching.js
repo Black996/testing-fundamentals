@@ -1,10 +1,10 @@
 const willIHikeToday = require("./willIHikeToday");
-const hikePreditor = require("./hikingPredictor");
+const hikingPredictor = require("./hikingPredictor");
 const assert = require("assert");
 
 // monkey-patching to make our test deterministic
-const originalHikePredictor = hikePreditor.isGoodDayToHike;
-hikePreditor.isGoodDayToHike = function goodDay() { return true };
+const originalHikePredictor = hikingPredictor.isGoodDayToHike;
+hikingPredictor.isGoodDayToHike = function goodDay() { return true };
 
 try {
     assert.strictEqual(willIHikeToday(), "Yes!");
@@ -15,4 +15,4 @@ try {
 
 // cleanup after the test is done;
 
-hikePreditor.isGoodDayToHike = originalHikePredictor;
+hikingPredictor.isGoodDayToHike = originalHikePredictor;

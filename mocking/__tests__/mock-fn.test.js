@@ -1,15 +1,14 @@
 const willIHikeToday = require("../willIHikeToday");
-const hikePreditor = require("../hikingPredictor");
+const hikingPredictor = require("../hikingPredictor");
 
 test('returns if you can hike today', () => {
-    const originalHikePredictor = hikePreditor.isGoodDayToHike;
-    hikePreditor.isGoodDayToHike = jest.fn(function goodDay() { return true });
+    const originalHikePredictor = hikingPredictor.isGoodDayToHike;
+    hikingPredictor.isGoodDayToHike = jest.fn(function goodDay() { return true });
     const result = willIHikeToday();
 
     expect(result).toBe("Yes!");
-    console.log(hikePreditor.isGoodDayToHike.mock);
-    expect(hikePreditor.isGoodDayToHike).toHaveBeenCalled();
-    expect(hikePreditor.isGoodDayToHike).toHaveBeenCalledTimes(1);
+    expect(hikingPredictor.isGoodDayToHike).toHaveBeenCalled();
+    expect(hikingPredictor.isGoodDayToHike).toHaveBeenCalledTimes(1);
 
-    hikePreditor.isGoodDayToHike = originalHikePredictor;
+    hikingPredictor.isGoodDayToHike = originalHikePredictor;
 })
