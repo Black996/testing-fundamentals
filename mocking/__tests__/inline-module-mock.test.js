@@ -1,4 +1,3 @@
-// we can achieve mocking the function with spy utility from jest as well
 const willIHikeToday = require("../willIHikeToday");
 const hikingPredictor = require("../hikingPredictor");
 
